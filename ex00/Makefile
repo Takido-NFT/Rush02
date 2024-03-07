@@ -10,7 +10,7 @@ CC = gcc
 all: $(EXEC)
 
 $(EXEC) : $(OBJ) 
-	$(CC) $(FLAGS) $(OBJ) -o $(EXEC)
+	$(CC) -g $(FLAGS) $(OBJ) -o $(EXEC)
 
 %.o: %.c
 	$(CC) $(FLAGS) -c $< -o $@
