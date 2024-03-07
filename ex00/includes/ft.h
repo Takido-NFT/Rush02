@@ -34,5 +34,6 @@ char    *huge_num(int thousands, char *dictstr);
 int     count_dict_line(char *dictstr);
 char    *ft_split_dict(char *dictstr);
 int     is_numeric(char *str);
+char    *ft_strsjoin(char *s1, char *s2, char *sep);
 
 #endif

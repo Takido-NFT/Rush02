@@ -29,8 +29,6 @@ unsigned long long int	ft_atoi(char *str)
 			signe = -1;
 		i++;
 	}
-	while (str[i] == '0')
-		i++;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		res = res * 10 + str[i] - '0';
