@@ -26,7 +26,7 @@ int ft_num_size(unsigned long long int number)
     size = 0;
 	if (number == 0)
 		return (1);
-    while (number > 999)
+    while (number > 999999)
     {
         number = number / 1000;
         size++;
@@ -43,37 +43,45 @@ char    *ft_get_num_split(char *strnum, char *dictstr)
 	char					*chunk_str;
 	char					*huge_num_str;
 	int						thousands;
+	int						zeros;
 
     number = ft_atoi(strnum);
     if (number == 0)
-	{
 		return ("zero");
-	}
 	join = NULL;
-	thousands = ft_num_size(number) + 1;
+	thousands = ft_num_size(number);
+	zeros = 0;
 	while (number > 0)
 	{
 		chunk = number % 1000;
 		number /= 1000;
 		if (chunk > 0)
 		{
-			chunk_str = ft_split_numbers(ft_itoa(chunk), dictstr, 0);
+			chunk_str = ft_split_numbers(ft_itoa(chunk), dictstr);
 			if (join == NULL)
 			{
 				join = chunk_str;
 			}
 			else
 			{
-				huge_num_str = huge_num(ft_num_size(number), dictstr);
+				huge_num_str = huge_num(thousands, dictstr);
 				temp = ft_strsjoin(lower_case(huge_num_str), join, " ");
 				free(join);
 				free(huge_num_str);
 				join = ft_strsjoin(chunk_str, temp, " ");
 				free(temp);
 				free(chunk_str);
-				thousands--;
+				thousands++;
 			}
 		}
+		else
+			zeros++;
+	}
+	if (zeros > 0)
+	{
+		ft_strcat(join, " ");
+		ft_strcat(join, lower_case(huge_num(zeros, dictstr)));
+		zeros = 0;
 	}
 	return (join);
 }
@@ -112,7 +120,7 @@ char    *ft_get_number_dict_line(char *num, char *dictstr)
     return (ret);
 }
 
-char *ft_split_numbers(char *strnum, char *dictstr, int thousands)
+char *ft_split_numbers(char *strnum, char *dictstr)
 {
 	int size;
 	int temp;
@@ -121,23 +129,17 @@ char *ft_split_numbers(char *strnum, char *dictstr, int thousands)
 
 	temp = ft_atoi(strnum);
 	size = 0;
-	if (temp == 0 && thousands <= 0)
-	{
-		join = "zero\0";
-		return (join);
-	}
 	while (temp > 0)
 	{
 		temp = temp / 10;
 		size++;
 	}
-	if (thousands > 0)
+	join = (char *)malloc((MAX * size + 1) * sizeof(char));
+	if (size == 1)
 	{
-		join = huge_num(thousands, dictstr);
-	}
-	else if (size == 1)
-	{
-		join = lower_case(ft_get_number_dict_line(strnum, dictstr));
+		numalt[0] = strnum[0];
+		numalt[1] = '\0';
+		join = lower_case(ft_get_number_dict_line(numalt, dictstr));
 	}
 	else if (size == 2)
 	{
@@ -147,13 +149,21 @@ char *ft_split_numbers(char *strnum, char *dictstr, int thousands)
             numalt[1] = '0';
             numalt[2] = '\0';
             join = lower_case(ft_get_number_dict_line(numalt, dictstr));
-		    numalt[0] = strnum[1];
-            numalt[1] = '\0';
-            ft_strcat(join, " ");
-            ft_strcat(join, lower_case(ft_get_number_dict_line(numalt, dictstr)));
+			if (strnum[1] != '0')
+			{
+				numalt[0] = strnum[1];
+            	numalt[1] = '\0';
+            	ft_strcat(join, " ");
+            	ft_strcat(join, lower_case(ft_get_number_dict_line(numalt, dictstr)));
+			}
         }
-        else if (ft_atoi(strnum) > 0)
-            join = lower_case(ft_get_number_dict_line(strnum, dictstr));
+        else if (ft_atoi(strnum) <= 20)
+		{
+			numalt[0] = strnum[0];
+			numalt[1] = strnum[1];
+			numalt[2] = '\0';
+			join = lower_case(ft_get_number_dict_line(numalt, dictstr));
+		}
 	}
     else if (size == 3)
 	{
@@ -178,10 +188,11 @@ char *ft_split_numbers(char *strnum, char *dictstr, int thousands)
         }
         else if (ft_atoi(numalt) > 0)
         {
-			if (ft_atoi(numalt) < 10)
+			if (ft_atoi(numalt) <= 20)
 			{
-				numalt[0] = strnum[2];
-				numalt[1] = '\0';
+				numalt[0] = strnum[0];
+				numalt[1] = strnum[1];
+				numalt[2] = '\0';
 			}
             ft_strcat(join, " ");
             ft_strcat(join, lower_case(ft_get_number_dict_line(numalt, dictstr)));
@@ -209,7 +220,7 @@ char    *huge_num(int thousands, char *dictstr)
 		ft_putstr("Error\n");
 		return (NULL);
 	}
-	while (new_line < thousands)
+	while (new_line < thousands && dictstr[i] != '\0')
 	{
 		if (dictstr[i] == '\n')
 			new_line++;
