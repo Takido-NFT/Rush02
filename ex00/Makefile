@@ -3,7 +3,9 @@ FLAGS = -Wall -Wextra -Werror
 PATH_SRC = ./srcs/
 SRC = $(PATH_SRC)ft_putchar.c $(PATH_SRC)ft_putstr.c $(PATH_SRC)ft_atoi.c \
 		$(PATH_SRC)ft_strlen.c $(PATH_SRC)ft_itoa.c $(PATH_SRC)ft_get_num_split.c \
-			$(PATH_SRC)ft_split.c $(PATH_SRC)ft_strjoin.c $(PATH_SRC)lower_case.c $(PATH_SRC)is_numeric.c
+			$(PATH_SRC)ft_split.c $(PATH_SRC)ft_strjoin.c $(PATH_SRC)ft_low.c  \
+				$(PATH_SRC)is_numeric.c $(PATH_SRC)main.c $(PATH_SRC)ft_num_size.c \
+					$(PATH_SRC)ft_split_num.c
 OBJ = $(SRC:.c=.o)
 CC = gcc
 

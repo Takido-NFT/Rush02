@@ -13,59 +13,88 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include "../includes/ft.h"
 
 #define BUFFER 1000
 
-int	ft_file_check(char *argv1, char *argv2);
+char	*ft_file_check(char *dict);
 
 int	main(int argc, char *argv[])
 {
 	char *str;
+	char *dictstr;
 	if (argc == 2)
 	{
-		if (ft_atoi(argv[1]) < 0)
+		if (is_numeric(argv[1]) == 1)
 		{
 			ft_putstr("Error\n");
 			return (1);
 		}
-		printf ("%d\n", ft_atoi(argv[1])); //only for test reasons
+		dictstr = ft_file_check("en.dict");
+		if (dictstr == NULL)
+			return (1);
+		str = ft_var_dispatch(argv[1], dictstr);
+		ft_putstr(str);
+		ft_putstr("\n");
 	}
 	else if (argc == 3)
 	{
-		if (ft_atoi(argv[2]) < 0)
+		if (is_numeric(argv[2]) == 1)
 		{
 			ft_putstr("Error\n");
 			return (1);
 		}
-		if (ft_file_check(argv[1], argv[2]) == 1)
+		dictstr = ft_file_check(argv[1]);
+		if (dictstr == NULL)
 			return (1);
-		str = ft_get_num_split(argv[2], argv[1]);
+		str = ft_var_dispatch(argv[2], dictstr);
+		ft_putstr(str);
+		ft_putstr("\n");
+	}
+	else
+	{
+		ft_putstr("Error\n");
+		return (1);
 	}
 	return (0);
 }
 
-int	ft_file_check(char *argv1, char *argv2)
+char	*ft_file_check(char *dict)
 {
-	char	str[BUFFER];
+	char	*str;
 	int		file;
 	int		sz;
 
-	file = open(argv1, O_RDONLY);
+	str = malloc(BUFFER * sizeof(char));
+	file = open(dict, O_RDONLY);
 	if (file == -1)
 	{
-		ft_putstr ("Can't open the file.\n");
-		return (1);
+		ft_putstr ("Dict Error\n");
+		return (NULL);
 	}
 	sz = read(file, str, BUFFER);
 	if (sz == -1)
 	{
-		ft_putstr("Can't read the file.\n");
+		ft_putstr("Dict Error\n");
 		close(file);
-		return (1);
+		return (NULL);
 	}
 	str[sz] = '\0';
-	ft_putstr(str);
 	close(file);
-	return (0);
+	return (str);
+}
+
+char	*ft_var_dispatch(char *strnum, char *dict)
+{
+	unsigned long long int	number;
+	int						thousands;
+	int						zeros;
+	char					*join;
+
+	number = ft_atoi(strnum);
+	thousands = ft_num_size(number);
+	zeros = 0;
+	join = ft_num_split(strnum, dict, thousands, zeros);
+	return (join);
 }
