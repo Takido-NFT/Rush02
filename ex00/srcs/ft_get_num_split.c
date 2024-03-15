@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include <fcntl.h>
-#include <unistd.h>
+
 #include <stdlib.h>
 #include "../includes/ft.h"
 
@@ -89,7 +88,7 @@ char	*ft_dict_line(char *num, char *dictstr)
 	}
 	return (ret);
 }
-
+/*Faire une variable qui nous dit le nombre de base de thousands du nombre originel*/
 char	*huge_num(int thousands, char *dictstr)
 {
 	int		i;
@@ -99,7 +98,7 @@ char	*huge_num(int thousands, char *dictstr)
 
 	i = 0;
 	j = 0;
-	new_line = 1;
+	new_line = 3;
 	strnum = (char *)malloc((MAX + thousands * 3 + 1) * sizeof(char));
 	if (strnum == NULL)
 		return (NULL);
@@ -110,11 +109,8 @@ char	*huge_num(int thousands, char *dictstr)
 			new_line++;
 	}
 	while (dictstr[i] != '\n' && dictstr[i] != '\0')
-	{
-		strnum[j] = dictstr[i];
-		j++;
-		i++;
-	}
+		strnum[j++] = dictstr[i++];
 	strnum[j] = '\0';
+	printf("\n%d\n", thousands);
 	return (strnum);
 }

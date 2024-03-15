@@ -12,10 +12,10 @@
 
 #include "../includes/ft.h"
 
-unsigned long long int	ft_atoi(char *str)
+unsigned long long	ft_atoi(char *str)
 {
 	int						i;
-	unsigned long long int	res;
+	unsigned long long		res;
 	int						signe;
 
 	i = 0;

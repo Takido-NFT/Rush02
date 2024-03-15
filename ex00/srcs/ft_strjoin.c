@@ -46,15 +46,12 @@ char    *ft_strsjoin(char *s1, char *s2, char *sep)
     len_s1 = ft_strlen(s1);
     len_s2 = ft_strlen(s2);
     len_sep = ft_strlen(sep);
-
     result = (char *)malloc((len_s1 + len_s2 + len_sep + 1) * sizeof(char));
-
     if (result == NULL)
         return (NULL);
     ft_strcpy(result, s1);
     ft_strcat(result, sep);
     ft_strcat(result, s2);
-
     return (result);
 }
 

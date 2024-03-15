@@ -13,12 +13,12 @@
 #include "../includes/ft.h"
 #include <stdlib.h>
 
-char	*ft_itoa(unsigned long long int num)
+char	*ft_itoa(unsigned long long num)
 {
-	char	*array;
-	int		temp;
-	int		i;
-	int		size;
+	char					*array;
+	unsigned long long		temp;
+	int						i;
+	int						size;
 
 	size = 0;
 	temp = num;
@@ -30,17 +30,14 @@ char	*ft_itoa(unsigned long long int num)
 		num = num / 10;
 		size++;
 	}
-	array[size - 1] = '\0';
 	num = temp;
 	i = size;
-	if (num == 0)
-		array[0] = '0';
+	array[0] = '0';
 	while (num > 0)
 	{
 		temp = num % 10;
 		num = num / 10;
-		array[i - 1] = temp + '0';
-		i--;
+		array[--i] = temp + '0';
 	}
 	return (array);
 }

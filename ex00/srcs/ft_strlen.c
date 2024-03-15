@@ -24,13 +24,3 @@ int ft_strlen(char *str)
         i++;
     return (i);
 }
-
-int ft_strlenln(char *str)
-{
-    int i;
-
-    i = 0;
-    while (str[i] != '\n')
-        i++;
-    return (i);
-}

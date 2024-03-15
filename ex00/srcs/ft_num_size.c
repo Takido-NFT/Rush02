@@ -12,7 +12,7 @@
 
 #include "../includes/ft.h"
 
-int	ft_num_size(unsigned long long int number)
+int	ft_num_size(unsigned long long number)
 {
 	int	size;
 
