@@ -32,7 +32,7 @@ char	*ft_zeros(int zeros, char *join, char *dict)
 	if (zeros > 0)
 	{
 		ft_strcat(join, " ");
-		ft_strcat(join, ft_low(huge_num(zeros, dict)));
+		ft_strcat(join, ft_low(huge_num(zeros, dict, 0)));
 	}
 	return (join);
 }

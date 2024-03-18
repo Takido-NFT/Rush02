@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
 #include <stdlib.h>
 #include "../includes/ft.h"
 
@@ -20,12 +18,17 @@
 
 char	*ft_get_num(char *chunkstr, char *join, int thousands, char *dict)
 {
+	static int	org_thousands;
+
 	if (join == NULL)
+	{
 		join = chunkstr;
+		org_thousands = thousands;
+	}
 	else
 	{
-		join = ft_strsjoin(chunkstr, \
-			ft_strsjoin(ft_low(huge_num(thousands, dict)), \
+		join = ft_strjoin(chunkstr, \
+			ft_strjoin(ft_low(huge_num(thousands, dict, org_thousands)), \
 				join, " "), " ");
 		free(chunkstr);
 	}
@@ -88,8 +91,8 @@ char	*ft_dict_line(char *num, char *dictstr)
 	}
 	return (ret);
 }
-/*Faire une variable qui nous dit le nombre de base de thousands du nombre originel*/
-char	*huge_num(int thousands, char *dictstr)
+
+char	*huge_num(int thousands, char *dictstr, int org_thousands)
 {
 	int		i;
 	int		j;
@@ -98,7 +101,7 @@ char	*huge_num(int thousands, char *dictstr)
 
 	i = 0;
 	j = 0;
-	new_line = 3;
+	new_line = org_thousands + 1;
 	strnum = (char *)malloc((MAX + thousands * 3 + 1) * sizeof(char));
 	if (strnum == NULL)
 		return (NULL);
@@ -111,6 +114,5 @@ char	*huge_num(int thousands, char *dictstr)
 	while (dictstr[i] != '\n' && dictstr[i] != '\0')
 		strnum[j++] = dictstr[i++];
 	strnum[j] = '\0';
-	printf("\n%d\n", thousands);
 	return (strnum);
 }

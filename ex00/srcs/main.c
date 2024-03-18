@@ -18,48 +18,6 @@
 
 #define BUFFER 1000
 
-char	*ft_file_check(char *dict);
-
-int	main(int argc, char *argv[])
-{
-	char *str;
-	char *dictstr;
-	if (argc == 2)
-	{
-		if (is_numeric(argv[1]) == 1)
-		{
-			ft_putstr("Error\n");
-			return (1);
-		}
-		dictstr = ft_file_check("en.dict");
-		if (dictstr == NULL)
-			return (1);
-		str = ft_var_dispatch(argv[1], dictstr);
-		ft_putstr(str);
-		ft_putstr("\n");
-	}
-	else if (argc == 3)
-	{
-		if (is_numeric(argv[2]) == 1)
-		{
-			ft_putstr("Error\n");
-			return (1);
-		}
-		dictstr = ft_file_check(argv[1]);
-		if (dictstr == NULL)
-			return (1);
-		str = ft_var_dispatch(argv[2], dictstr);
-		ft_putstr(str);
-		ft_putstr("\n");
-	}
-	else
-	{
-		ft_putstr("Error\n");
-		return (1);
-	}
-	return (0);
-}
-
 char	*ft_file_check(char *dict)
 {
 	char	*str;
@@ -97,4 +55,48 @@ char	*ft_var_dispatch(char *strnum, char *dict)
 	zeros = 0;
 	join = ft_num_split(strnum, dict, thousands, zeros);
 	return (join);
+}
+
+int	argc_two(char *argv, char *dictstr, char *str)
+{
+	if (ft_is_numeric(argv) == 1)
+	{
+		ft_putstr("Error\n");
+		return (1);
+	}
+	dictstr = ft_file_check("en.dict");
+	if (dictstr == NULL)
+		return (1);
+	str = ft_var_dispatch(argv, dictstr);
+	ft_putstr(str);
+	ft_putstr("\n");
+	return (0);
+}
+
+int	main(int argc, char *argv[])
+{
+	char	*str;
+	char	*dictstr;
+
+	str = NULL;
+	dictstr = NULL;
+	if (argc == 2)
+		argc_two(argv[1], dictstr, str);
+	else if (argc == 3)
+	{
+		if (ft_is_numeric(argv[2]) == 1)
+		{
+			ft_putstr("Error\n");
+			return (1);
+		}
+		dictstr = ft_file_check(argv[1]);
+		if (dictstr == NULL)
+			return (1);
+		str = ft_var_dispatch(argv[2], dictstr);
+		ft_putstr(str);
+		ft_putstr("\n");
+	}
+	else
+		ft_putstr("Error\n");
+	return (0);
 }

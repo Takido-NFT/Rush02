@@ -15,36 +15,35 @@
 
 #define MAX 20
 
-char	*sizetwo(char *strnum, char *numalt, char *join, char *dictstr);
-char	*sizethree(char *strnum, char *numalt, char *join, char *dictstr);
-char	*highnumalt(char *numalt, char *strnum, char *join, char *dictstr);
-char	*sizelittle(char *numalt, char *strnum);
-
-char	*ft_split_numbers(char *strnum, char *dictstr)
+char	*sizelittle(char *numalt, char *strnum)
 {
-	int		size;
-	int		temp;
-	char	numalt[MAX];
-	char	*join;
-
-	temp = ft_atoi(strnum);
-	size = 0;
-	while (temp > 0)
+	if (numalt[0] == '0')
 	{
-		temp = temp / 10;
-		size++;
-	}
-	join = (char *)malloc((MAX * size + 1) * sizeof(char));
-	if (size == 1)
-	{
-		numalt[0] = strnum[0];
+		numalt[0] = strnum[2];
 		numalt[1] = '\0';
-		join = ft_low(ft_dict_line(numalt, dictstr));
 	}
-	else if (size == 2)
-		join = sizetwo(strnum, numalt, join, dictstr);
-	else if (size == 3)
-		join = sizethree(strnum, numalt, join, dictstr);
+	else
+	{
+		numalt[0] = strnum[1];
+		numalt[1] = strnum[2];
+		numalt[2] = '\0';
+	}
+	return (numalt);
+}
+
+char	*highnumalt(char *numalt, char *strnum, char *join, char *dictstr)
+{
+	numalt[0] = strnum[1];
+	numalt[1] = '0';
+	numalt[2] = '\0';
+	ft_strcat(join, " ");
+	ft_strcat(join, \
+		ft_low(ft_dict_line(numalt, dictstr)));
+	numalt[0] = strnum[2];
+	numalt[1] = '\0';
+	ft_strcat(join, " ");
+	ft_strcat(join, \
+		ft_low(ft_dict_line(numalt, dictstr)));
 	return (join);
 }
 
@@ -97,34 +96,30 @@ char	*sizethree(char *strnum, char *numalt, char *join, char *dictstr)
 	return (join);
 }
 
-char	*highnumalt(char *numalt, char *strnum, char *join, char *dictstr)
+char	*ft_split_numbers(char *strnum, char *dictstr)
 {
-	numalt[0] = strnum[1];
-	numalt[1] = '0';
-	numalt[2] = '\0';
-	ft_strcat(join, " ");
-	ft_strcat(join, \
-		ft_low(ft_dict_line(numalt, dictstr)));
-	numalt[0] = strnum[2];
-	numalt[1] = '\0';
-	ft_strcat(join, " ");
-	ft_strcat(join, \
-		ft_low(ft_dict_line(numalt, dictstr)));
-	return (join);
-}
+	int		size;
+	int		temp;
+	char	numalt[MAX];
+	char	*join;
 
-char	*sizelittle(char *numalt, char *strnum)
-{
-	if (numalt[0] == '0')
+	temp = ft_atoi(strnum);
+	size = 0;
+	while (temp > 0)
 	{
-		numalt[0] = strnum[2];
+		temp = temp / 10;
+		size++;
+	}
+	join = (char *)malloc((MAX * size + 1) * sizeof(char));
+	if (size == 1)
+	{
+		numalt[0] = strnum[0];
 		numalt[1] = '\0';
+		join = ft_low(ft_dict_line(numalt, dictstr));
 	}
-	else
-	{
-		numalt[0] = strnum[1];
-		numalt[1] = strnum[2];
-		numalt[2] = '\0';
-	}
-	return (numalt);
+	else if (size == 2)
+		join = sizetwo(strnum, numalt, join, dictstr);
+	else if (size == 3)
+		join = sizethree(strnum, numalt, join, dictstr);
+	return (join);
 }

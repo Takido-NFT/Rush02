@@ -1,19 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar.c                                       :+:      :+:    :+:   */
+/*   is_numeric.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalbeck <tmalbeck@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/23 23:52:37 by tmalbeck          #+#    #+#             */
-/*   Updated: 2024/02/23 23:52:37 by tmalbeck         ###   ########.fr       */
+/*   Created: 2024/03/06 01:50:55 by tmalbeck          #+#    #+#             */
+/*   Updated: 2024/03/06 01:50:55 by tmalbeck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "../includes/ft.h"
 
-void	ft_putchar(char c)
+int	ft_is_numeric(char *str)
 {
-	write(1, &c, 1);
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] >= '0' && str[i] <= '9')
+			i++;
+		else
+			return (1);
+	}
+	return (0);
 }
