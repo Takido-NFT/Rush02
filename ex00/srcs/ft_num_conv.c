@@ -45,6 +45,8 @@ char	*ft_num_split(char *strnum, char *dict, int thousands, int zeros)
 	number = ft_atoi(strnum);
 	if (number == 0)
 		return ("zero");
+	if (ft_strlen(strnum) > 19)
+		return ("Error");
 	join = NULL;
 	while (number > 0)
 	{
